@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import itertools
 import csv
 import random
-
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.model_selection import learning_curve
 from sklearn.model_selection import GroupKFold
@@ -130,25 +129,28 @@ X, y, groups = initialize_data("../sheets/features.csv")
 
 cv = KFold()
 train_sizes = np.linspace(0.1, 1.0, 5)
-clf = GradientBoostingClassifier(n_estimators=300, learning_rate = 0.6, max_depth=1, random_state=0)
+#clf = GradientBoostingClassifier(n_estimators=300, learning_rate = 0.6, max_depth=1, random_state=0)
 
-# param_grid = {
-#     "learning_rate": [0.3, 0.4, 0.5, 0.6],
-#     "n_estimators": [150, 200, 250, 300]
-# }
-#
-# grid = GridSearchCV(estimator=clf, param_grid=param_grid, scoring="roc_auc", n_jobs=-1, cv=5, verbose= 2, return_train_score=True)
-#
-# grid.fit(X, y)
-#
-# print("best params:")
-# print(grid.best_params_)
-# print("best score: ")
-# print(grid.best_score_)
-#
-# sorted(grid.cv_results_.keys())
+param_grid = {
+    "learning_rate": [0.1, 0.2, 0.3],
+    "n_estimators": [150, 200, 250, 300],
+    "max_depth": [3,4,5,6]
+}
 
-plot_learning_curve(clf, "n=200_lr=0.6", X, y, groups=groups, cv=cv, axes=axes[:, 0], train_sizes=train_sizes)
+clf = GradientBoostingClassifier(random_state=0)
+
+grid = GridSearchCV(estimator=clf, param_grid=param_grid, scoring="roc_auc", n_jobs=-1, cv=5, verbose= 2, return_train_score=True)
+
+grid.fit(X, y)
+
+print("best params:")
+print(grid.best_params_)
+print("best score: ")
+print(grid.best_score_)
+
+sorted(grid.cv_results_.keys())
+
+#plot_learning_curve(clf, "n=200_lr=0.6", X, y, groups=groups, cv=cv, axes=axes[:, 0], train_sizes=train_sizes)
 
 #X1, y1, groups1 = initialize_data("../sheets/spectral_dataset.csv")
 
@@ -156,6 +158,6 @@ plot_learning_curve(clf, "n=200_lr=0.6", X, y, groups=groups, cv=cv, axes=axes[:
 
 #plot_learning_curve(clf, "learning_rate = 2.0", X, y, groups=groups, cv=cv, axes=axes[:, 1], train_sizes=train_sizes)
 
-figure.tight_layout()
-plt.savefig('../figures/GBoost_n=200_lr=0.6.png')
-plt.show()
+# figure.tight_layout()
+# plt.savefig('../figures/GBoost_n=200_lr=0.6.png')
+# plt.show()
