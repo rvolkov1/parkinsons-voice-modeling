@@ -78,4 +78,4 @@ history = lstm_model.fit(
         mode='min')]
 )
 
-print(history)
+#print(history)
