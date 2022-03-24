@@ -7,7 +7,7 @@ from tensorflow import keras
 from tensorflow.keras import layers
 import random
 
-LLD_dataset = "../sheets/LLD_dataset20.csv"
+LLD_dataset = "../sheets/LLD_dataset.csv"
 
 def get_columns():
     with open(LLD_dataset) as data:

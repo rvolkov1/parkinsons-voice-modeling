@@ -132,9 +132,9 @@ train_sizes = np.linspace(0.1, 1.0, 5)
 #clf = GradientBoostingClassifier(n_estimators=300, learning_rate = 0.6, max_depth=1, random_state=0)
 
 param_grid = {
-    "learning_rate": [0.1, 0.2, 0.3],
-    "n_estimators": [150, 200, 250, 300],
-    "max_depth": [3,4,5,6]
+    "learning_rate": [0.1, 0.2, 0.3, 0.4, 0.5],
+    "n_estimators": [150, 200, 250, 300, 350, 400, 500],
+    "max_depth": [3,4,5,6, 7]
 }
 
 clf = GradientBoostingClassifier(random_state=0)
@@ -149,6 +149,8 @@ print("best score: ")
 print(grid.best_score_)
 
 sorted(grid.cv_results_.keys())
+
+#   {'learning_rate': 0.1, 'max_depth': 7, 'n_estimators': 500}
 
 #plot_learning_curve(clf, "n=200_lr=0.6", X, y, groups=groups, cv=cv, axes=axes[:, 0], train_sizes=train_sizes)
 
