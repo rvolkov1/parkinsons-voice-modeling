@@ -117,7 +117,7 @@ def plot_learning_curve(
     axes[2].set_xlabel("fit_times")
     axes[2].set_ylabel("Score")
     axes[2].set_title("Performance of the model")
-
+    console.log("model training finished")
     return plt
 
 
@@ -131,35 +131,37 @@ cv = KFold()
 train_sizes = np.linspace(0.1, 1.0, 5)
 #clf = GradientBoostingClassifier(n_estimators=300, learning_rate = 0.6, max_depth=1, random_state=0)
 
-param_grid = {
-    "learning_rate": [0.1, 0.2, 0.3, 0.4, 0.5],
-    "n_estimators": [150, 200, 250, 300, 350, 400, 500],
-    "max_depth": [3,4,5,6, 7]
-}
+# param_grid = {
+#     "learning_rate": [0.1, 0.2, 0.3, 0.4, 0.5],
+#     "n_estimators": [150, 200, 250, 300, 350, 400, 500],
+#     "max_depth": [3,4,5,6, 7]
+# }
 
-clf = GradientBoostingClassifier(random_state=0)
+# clf = GradientBoostingClassifier(random_state=0)
 
-grid = GridSearchCV(estimator=clf, param_grid=param_grid, scoring="roc_auc", n_jobs=-1, cv=5, verbose= 2, return_train_score=True)
-
-grid.fit(X, y)
-
-print("best params:")
-print(grid.best_params_)
-print("best score: ")
-print(grid.best_score_)
-
-sorted(grid.cv_results_.keys())
+# grid = GridSearchCV(estimator=clf, param_grid=param_grid, scoring="roc_auc", n_jobs=-1, cv=5, verbose= 2, return_train_score=True)
+#
+# grid.fit(X, y)
+#
+# print("best params:")
+# print(grid.best_params_)
+# print("best score: ")
+# print(grid.best_score_)
+#
+# sorted(grid.cv_results_.keys())
 
 #   {'learning_rate': 0.1, 'max_depth': 7, 'n_estimators': 500}
 
-#plot_learning_curve(clf, "n=200_lr=0.6", X, y, groups=groups, cv=cv, axes=axes[:, 0], train_sizes=train_sizes)
+# plot_learning_curve(clf, "optimal estimator", X, y, groups=groups, cv=cv, axes=axes[:, 0], train_sizes=train_sizes)
 
-#X1, y1, groups1 = initialize_data("../sheets/spectral_dataset.csv")
+X1, y1, groups1 = initialize_data("../sheets/spectral_dataset.csv")
 
-#clf = GradientBoostingClassifier(n_estimators=200, learning_rate=2.0, max_depth=1, random_state=0)
+clf = GradientBoostingClassifier(n_estimators=300, learning_rate=0.1, max_depth=5, random_state=0)
 
-#plot_learning_curve(clf, "learning_rate = 2.0", X, y, groups=groups, cv=cv, axes=axes[:, 1], train_sizes=train_sizes)
+plot_learning_curve(clf, "GBoost raw audio", X, y, groups=groups, cv=cv, axes=axes[:, 0], train_sizes=train_sizes)
 
-# figure.tight_layout()
-# plt.savefig('../figures/GBoost_n=200_lr=0.6.png')
-# plt.show()
+plot_learning_curve(clf, "GBoost with background noise reduction", X1, y1, groups=groups1, cv=cv, axes=axes[:, 1], train_sizes=train_sizes)
+
+figure.tight_layout()
+plt.savefig('../figures/optimal_estimator2.png')
+plt.show()
